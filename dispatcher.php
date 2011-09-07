@@ -40,7 +40,7 @@ $options = array('repository' => $argv[1], 'jenkins' => $argv[2]);
 $jobs   = getJobs($options['repository']);
 $ok     = true;
 foreach ($jobs as $job => $nop) {
-    $ok = $ok && httpTrigger($options['jenkins'], $job);
+    $ok = $ok && cliTrigger($options['jenkins'], $job);
 }
 
 if (!$ok) {
@@ -123,12 +123,15 @@ function httpTrigger($server, $job) {
     //file_get_contents($buildUrl);
 }
 
-function cliTrigger($job) {
-    $cmd    = 'java -jar /opt/tomcat/webapps/ROOT/WEB-INF/hudson-cli.jar -s '.escapeshellarg($hudsonServer).' build '.escapeshellarg($job);
+// Need to setup a special user on jenkins server (say jenkinsbuilder)
+// then as 'jenkins' user on build server, generate a ssh key (ssh-keygen)
+// and upload it as SSH key of 'jenkinsbuilder'.
+// grant 'build' privilege to jenkinsbuilder and that's it!
+function cliTrigger($server, $job) {
+    $cmd    = 'java -jar /var/lib/jenkins/war/WEB-INF/jenkins-cli.jar -s '.escapeshellarg($server).' build '.escapeshellarg($job);
     $result = false;
     $output = array();
     exec($cmd, $output, $result);
-
     if ($result !== 0) {
         echo "*** ERROR with $cmd:\n";
         var_dump($output);
