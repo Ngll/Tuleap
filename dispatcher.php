@@ -97,7 +97,7 @@ function getJobs($repository) {
             if (preg_match('%^/contrib/st/intg/Codendi-ST-4.0/([^/]+)/(.*)$%', $p, $match)) {
                 switch ($match[1]) {
                 case 'trunk':
-                    $jobs['Codendi-4.0-ST'] = true;
+                    $jobs['ut_trunk'] = true;
                     break;
                     //case 'tag':
                 case 'branches':
@@ -131,6 +131,7 @@ function cliTrigger($server, $job) {
     $cmd    = 'java -jar /var/lib/jenkins/war/WEB-INF/jenkins-cli.jar -s '.escapeshellarg($server).' build '.escapeshellarg($job);
     $result = false;
     $output = array();
+    echo 'Trigger '.$cmd.PHP_EOL;
     exec($cmd, $output, $result);
     if ($result !== 0) {
         echo "*** ERROR with $cmd:\n";
