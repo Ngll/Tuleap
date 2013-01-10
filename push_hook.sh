@@ -8,4 +8,4 @@ git fetch --all
 $WORKSPACE/tuleap2jenkins/create_branch.sh
 
 # Notify jobs that depends of this repo
-curl $JENKINS_URL/git/notifyCommit?url=$WORKSPACE/tuleap.git
+curl -k $JENKINS_URL/git/notifyCommit?url=$WORKSPACE/tuleap.git
