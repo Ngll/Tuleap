@@ -1,0 +1,15 @@
+This repository contains some example of jenkins/tuleap integration:
+
+* push_hook.sh
+  Implementation of the job that will be triggered by each push in a git 
+  repository on Tuleap.
+
+* create_branch.sh
+  This script should be called within a git repository. It will create CI jobs
+  for each branch that does't has one (tailored for Tuleap use case).
+
+* dispatcher.php
+  Works as "receive hook" for Subversion.
+  It's supposed to be called when there is a commit on a subversion server.
+  It browses the changes made since the last call (persisted in a local file)
+  tigger the build of corresponding job with name pattern matching.

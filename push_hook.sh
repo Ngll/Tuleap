@@ -1,4 +1,11 @@
-cd tuleap.git
+#!/bin/bash -xe
+
+# Synchronize local mirror
+cd $WORKSPACE/tuleap.git
 git fetch --all
-/var/lib/jenkins/create_branch.sh
-curl http://localhost:8080/jenkins/git/notifyCommit?url=$WORKSPACE/tuleap.git
+
+# Create branches
+$WORKSPACE/tuleap2jenkins/create_branch.sh
+
+# Notify jobs that depends of this repo
+curl $JENKINS_URL/git/notifyCommit?url=$WORKSPACE/tuleap.git
