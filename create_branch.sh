@@ -58,6 +58,11 @@ create_job_php51() {
     create_job "$JOB_DIR/ut_template_git/config.xml" "$branch_name" "ut_$branch_name"
 }
 
+create_job_js() {
+    branch_name=$1
+    create_job "$JOB_DIR/ut_template_js/config.xml" "$branch_name" "ut_js_$branch_name"
+}
+
 # If no branch list, first init, do not create any jobs
 if [ ! -f "$BRANCH_LIST" ]; then
     generate_git_branch_list  > $BRANCH_LIST
@@ -72,5 +77,6 @@ for head in $(list_git_heads); do
     branch_name=$(echo "$head" | sed -e 's%refs/heads/%%')
     create_job_php53 $branch_name
     create_job_php51 $branch_name
+    create_job_js $branch_name
 done
 generate_git_branch_list  > $BRANCH_LIST
