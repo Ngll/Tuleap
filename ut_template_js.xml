@@ -70,17 +70,20 @@
     <hudson.tasks.Shell>
       <command>unset LANG
 export NODE_PATH=/usr/local/lib/node_modules
-nodejs /usr/local/bin/mocha --reporter xunit sources/tests/js/mocha/test &gt; mocha.xml
-mocha-phantomjs --reporter xunit sources/plugins/tests/www/mocha/index.html &gt; mocha-phantomjs.xml</command>
+./sources/tests/bin/js-suite.sh ci
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.plugins.chucknorris.CordellWalkerRecorder plugin="chucknorris@0.5">
+      <factGenerator/>
+    </hudson.plugins.chucknorris.CordellWalkerRecorder>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>mocha-phantomjs.xml,mocha.xml</artifacts>
+      <artifacts>*.xml</artifacts>
       <latestOnly>false</latestOnly>
     </hudson.tasks.ArtifactArchiver>
     <hudson.tasks.junit.JUnitResultArchiver>
-      <testResults>mocha-phantomjs.xml,mocha.xml</testResults>
+      <testResults>*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>
       <testDataPublishers/>
     </hudson.tasks.junit.JUnitResultArchiver>
